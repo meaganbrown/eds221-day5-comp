@@ -1,0 +1,24 @@
+---
+title: "pivotlonger"
+format: html
+editor: visual
+---
+
+```{r}
+library(palmerpenguins)
+library(tidyverse)
+```
+
+```{r}
+penguins_year_char <- penguins %>% 
+  mutate(year = as.character(year))
+
+penguins_year_numeric <- penguins_year_char %>% 
+   mutate(year = as.numeric(year))
+
+penguins_ad_ch <- penguins_year_numeric %>% 
+  filter(species %in% c("Adelie", "Chinstrap"))
+
+
+
+```

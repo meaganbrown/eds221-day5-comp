@@ -43,13 +43,13 @@ Add line-by-line comments wheres prompted in the code below, explaining what eac
 # ------ WHAT HAPPENS HERE? ------ #
 # ------ comment line-by-line ---- #
 
-# The line below...
+# The line below...creates a sequence of years from 0 - 8 years
 time_yr <- seq(from = 0, to = 8, by = 1)
 
-# The line below...
+# The line below...creates a matrix of the projected year with year 0 as column and the sequence of years created above as rows
 proj_year <- matrix(ncol = length(fish_year0), nrow = length(time_yr))
 
-# The line below...
+# The line below...defines year 0 as the 1st row in the matrix
 proj_year[1, ] <- fish_year0
 
 # The for loop below...
@@ -57,14 +57,16 @@ for (i in 2:length(time_yr)) {
   proj_year[i,] <- fish_leslie %*% proj_year[i-1,]
 }
 
-
 # The rest is wrangling & visualization (run to check it out):
 colnames(proj_year) <- c("eggs", "fry", "juvenile", "adult")
 
 proj_df <- data.frame(time_yr, proj_year) %>% 
-  pivot_longer(cols = -time_yr, names_to = "lifestage", values_to = "stage_population")
+  pivot_longer(cols = -time_yr, 
+               names_to = "lifestage", 
+               values_to = "stage_population")
 
-ggplot(data = proj_df, aes(x = time_yr, y = stage_population)) +
+ggplot(data = proj_df, aes(x = time_yr, 
+                           y = stage_population)) +
   geom_line(aes(color = lifestage)) +
   scale_y_log10()
 
